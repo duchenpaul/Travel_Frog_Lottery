@@ -1,6 +1,10 @@
 import sys, subprocess, os, time, random
 from PIL import Image, ImageChops
 
+# adb tcpip 5555
+# adb connect 192.168.2.103:5555
+
+
 blue_patten = (89, 167, 227, 255)
 green_patten = (134, 211, 101, 255)
 white_patten = (247, 243, 227, 255)
@@ -12,7 +16,7 @@ screenshot_way = 2
 def equal(im1, im2): 
     return ImageChops.difference(im1, im2).getbbox() is None
 
-def pull_screenshot():
+def pull_screenshot(): 
     '''
     新的方法请根据效率及适用性由高到低排序
     '''
@@ -63,6 +67,7 @@ def enter_store():
 
 def roll_lottery():
     while not isBuyButton():
+        select_one()
         ok_button()
     
     print('[Tap] roll lottery')
@@ -105,6 +110,10 @@ def isBuyButton():
     # print(buyButton)
     return equal(buyButton, cutoutIm)
 
+def log_color(color):
+	with open('./color.log', 'a') as f:
+		f.write(color + '\n')
+
 if __name__ == '__main__':
     if not isBuyButton():
         enter_store()
@@ -125,29 +134,34 @@ if __name__ == '__main__':
         print(cutoutIm_pix[120, 120])
         if cutoutIm_pix[120, 120] == white_patten:
             print("White!")
+            log_color("White!")
             get_marble()
             ok_button()
 
         elif cutoutIm_pix[120, 120] == green_patten:
             print("Green!")
+            log_color("Green!")
             get_marble()
             select_one()
             ok_button()
 
         elif cutoutIm_pix[120, 120] == blue_patten:
             print("Blue!")
+            log_color("Blue!")
             get_marble()
             select_one()
             ok_button()
 
         elif cutoutIm_pix[120, 120] == red_patten:
             print("Red!")
+            log_color("Red!")
             get_marble()
             select_one()
             ok_button()
 
         elif cutoutIm_pix[120, 120] == yellow_patten:
             print("Yellow!")
+            log_color("Yellow!")
             get_marble()
             select_one()
             ok_button()
